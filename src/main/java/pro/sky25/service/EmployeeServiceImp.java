@@ -1,10 +1,11 @@
-package pro.sky25;
+package pro.sky25.service;
+
+import pro.sky25.entity.Employee;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-public class EmployeeService {
+public class EmployeeServiceImp {
     private static final int MAX_SIZE = 100;
     List<Employee> employees = new ArrayList<>(List.of(
             new Employee("Бобров", "Ефим"),
