@@ -1,11 +1,12 @@
 package pro.sky25.service;
 
+import org.springframework.stereotype.Service;
 import pro.sky25.entity.Employee;
 
 import java.util.ArrayList;
 import java.util.List;
-
-public class EmployeeServiceImp {
+@Service
+public class EmployeeServiceImp  implements EmployeeService{
     private static final int MAX_SIZE = 100;
     List<Employee> employees = new ArrayList<>(List.of(
             new Employee("Бобров", "Ефим"),
@@ -20,24 +21,29 @@ public class EmployeeServiceImp {
             new Employee("Уварова", "Дана")
     ));
 
-    public void addEmpoyee(Employee employee) {
+    @Override
+    public Employee add(String firstName, String lastName) {
+        Employee employee = new Employee(firstName, lastName);
         employees.add(employee);
-
+        return employee;
     }
 
-    public void delEmployee(Employee employee) {
-        employees.remove(employee);
+    @Override
+    public Employee remove(String firstName, String lastName) {
+        Employee employee = new Employee(firstName, lastName);
+        if (employees.contains(employee)) {
+            employees.remove(employee);
+            return employee;
+        }
+        return null;
     }
 
-    public String getEmployee(Integer id) {
-        final Employee employee;
-        employee = employees.get(id);
-
-        final String employeeDescriptoin = ""
-                + employee.getFirstName() + " "
-                + employee.getLastName();
-        return employeeDescriptoin;
-
-
+    @Override
+    public Employee find(String firstName, String lastName) {
+        Employee employee = new Employee(firstName, lastName);
+        if (employees.contains(employee)) {
+            return employee;
+        }
+        return null;
     }
 }
