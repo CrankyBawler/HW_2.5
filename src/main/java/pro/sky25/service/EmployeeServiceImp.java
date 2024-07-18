@@ -2,8 +2,12 @@ package pro.sky25.service;
 
 import org.springframework.stereotype.Service;
 import pro.sky25.entity.Employee;
+import pro.sky25.exception.EmployeeAlreadyAddedException;
+import pro.sky25.exception.EmployeeNotFoundExection;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 @Service
 public class EmployeeServiceImp  implements EmployeeService{
@@ -24,6 +28,9 @@ public class EmployeeServiceImp  implements EmployeeService{
     @Override
     public Employee add(String firstName, String lastName) {
         Employee employee = new Employee(firstName, lastName);
+        if (employees.contains(employee)) {
+            throw new EmployeeAlreadyAddedException();
+        }
         employees.add(employee);
         return employee;
     }
@@ -35,7 +42,7 @@ public class EmployeeServiceImp  implements EmployeeService{
             employees.remove(employee);
             return employee;
         }
-        return null;
+        throw new EmployeeNotFoundExection();
     }
 
     @Override
@@ -44,6 +51,13 @@ public class EmployeeServiceImp  implements EmployeeService{
         if (employees.contains(employee)) {
             return employee;
         }
-        return null;
+        throw new EmployeeNotFoundExection();
     }
+
+    @Override
+    public Collection<Employee> findAll() {
+        return Collections.unmodifiableList(employees);
+    }
+
 }
+
